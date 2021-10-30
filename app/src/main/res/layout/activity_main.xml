@@ -1,7 +1,8 @@
 <AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#EFF6E7">
+    android:background="#C8E4E8">
 
     <Button
         android:id="@+id/refresh"
@@ -49,7 +50,7 @@
         android:layout_x="109dp"
         android:layout_y="93dp"
         android:background="#EFC6C3"
-        android:text="10.104.53.48:5000"
+        android:text="23.20.144.58"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="20sp"
         android:visibility="visible" />
@@ -61,7 +62,7 @@
         android:layout_x="187dp"
         android:layout_y="188dp"
         android:background="#DFCA0E"
-        android:text="pune"
+        android:text="pune-2"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="20sp"
@@ -74,7 +75,7 @@
         android:layout_x="188dp"
         android:layout_y="232dp"
         android:background="#DFCA0E"
-        android:text="full"
+        android:text="half"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="20sp"
@@ -86,7 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_x="32dp"
         android:layout_y="20dp"
-        android:background="#EFF6E7"
+        android:background="#C8E4E8"
         android:text="Smart Garbage System"
         android:textSize="30sp" />
 
@@ -99,49 +100,56 @@
         android:background="@android:drawable/alert_dark_frame"
         android:text="Map View" />
 
-<!--    <TableLayout-->
-<!--        android:id="@+id/tblrslt"-->
-<!--        android:layout_width="363dp"-->
-<!--        android:layout_height="192dp"-->
-<!--        android:layout_x="21dp"-->
-<!--        android:layout_y="479dp">-->
+    <!--    <TableLayout-->
+    <!--        android:id="@+id/tblrslt"-->
+    <!--        android:layout_width="363dp"-->
+    <!--        android:layout_height="192dp"-->
+    <!--        android:layout_x="21dp"-->
+    <!--        android:layout_y="479dp">-->
 
-<!--        <TableRow-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent" />-->
+    <!--        <TableRow-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent" />-->
 
-<!--        <TableRow-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent" />-->
+    <!--        <TableRow-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent" />-->
 
-<!--        <TableRow-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent" />-->
+    <!--        <TableRow-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent" />-->
 
-<!--        <TableRow-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent" />-->
-<!--    </TableLayout>-->
+    <!--        <TableRow-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent" />-->
+    <!--    </TableLayout>-->
 
 
     <TableLayout
-        android:id="@+id/tblrslt_header"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:showDividers="middle"
-        />
+        android:id="@+id/tblrslt"
+        android:layout_width="363dp"
+        android:layout_height="192dp"
+        android:layout_x="21dp"
+        android:layout_y="479dp" />
 
-    <ScrollView android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <TableLayout
-            android:id="@+id/tblrslt"
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:showDividers="middle"
-            android:stretchColumns="1,2"
-            />
-    </ScrollView>
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="395dp"
+        android:layout_height="255dp"
+        android:layout_x="11dp"
+        android:layout_y="448dp"
+        android:visibility="invisible" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="97dp"
+        android:layout_height="91dp"
+        android:layout_x="323dp"
+        android:layout_y="-8dp"
+        android:src="@android:drawable/ic_menu_delete" />
+
+
+    <!--    android:orientation="horizontal"-->
+    <!--    android:showDividers="middle"-->
+    <!--    android:stretchColumns="1,2"-->
 </AbsoluteLayout>

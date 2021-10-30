@@ -29,6 +29,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.gson.JsonObject;
 
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
     public  Button fit_app;
     public  Button mapView_app;
     private TableLayout tblrslt;
-    private List<String> headerRow = List.of("_id", "bin_id","geolocation","region","status");
+    private TableLayout tblrslt_header;
+    private List<String> headerRow = List.of("bin_id","geolocation","region","status");
 
 
 
@@ -65,8 +67,7 @@ public class MainActivity extends AppCompatActivity {
         refresh = findViewById(R.id.refresh);
         mapView_app = findViewById(R.id.mapView);
         tblrslt = (TableLayout) findViewById(R.id.tblrslt);
-        tblrslt.setStretchAllColumns(true);
-        tblrslt.bringToFront();
+        tblrslt_header = (TableLayout) findViewById(R.id.tblrslt);
 
 
         // adding on click listener to our button.
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         mapView_app.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,MainActivity.class);
+                Intent intent = new Intent(MainActivity.this,MapsActivity.class);
 
                 // start the activity connect to the specified class
                 startActivity(intent);
@@ -101,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finishAndRemoveTask();
+                android.os.Process.killProcess(android.os.Process.myPid());
                 System.exit(0);
             }
         });
@@ -161,6 +164,13 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("onResponse",jsonString.toString());
                 }
 
+                if (jsonString.get("result").isJsonArray() == false){
+                    Log.i("No Result",jsonString.toString());
+                    return;
+                }
+
+
+
                 Type BinlistType = new TypeToken<List<BinModal>>() {}.getType();
                 List<BinModal> binList = new Gson().fromJson(jsonString.get("result"), BinlistType);
 
@@ -168,6 +178,38 @@ public class MainActivity extends AppCompatActivity {
                 String msg ="Refresh successful , Count of Bins Record retrieved is "+binList.size();
                 Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_SHORT).show();
 
+                tblrslt.setStretchAllColumns(true);
+//                tblrslt.bringToFront();
+
+
+                tblrslt_header.setStretchAllColumns(true);
+                TableRow head_tr =  new TableRow(tblrslt_header.getContext());
+                for(int j = 0; j < headerRow.size(); j++){
+                    TextView h1 = new TextView(tblrslt_header.getContext());
+                    h1.setText(headerRow.get(j));
+                    head_tr.addView(h1);
+                }
+                tblrslt_header.addView(head_tr);
+
+                for(int i = 0; i < binList.size(); i++){
+                    TableRow tr =  new TableRow(tblrslt.getContext());
+//                    TextView c1 = new TextView(tblrslt.getContext());
+//                    c1.setText(binList.get(i).get_id());
+                    TextView c2 = new TextView(tblrslt.getContext());
+                    c2.setText(String.valueOf(binList.get(i).getBin_id()));
+                    TextView c3 = new TextView(tblrslt.getContext());
+                    c3.setText(String.valueOf(binList.get(i).getGeolocation()));
+                    TextView c4 = new TextView(tblrslt.getContext());
+                    c4.setText(String.valueOf(binList.get(i).getRegion()));
+                    TextView c5 = new TextView(tblrslt.getContext());
+                    c5.setText(String.valueOf(binList.get(i).getStatus()));
+//                    tr.addView(c1);
+                    tr.addView(c2);
+                    tr.addView(c3);
+                    tr.addView(c4);
+                    tr.addView(c5);
+                    tblrslt.addView(tr);
+                }
             }
 
             @Override

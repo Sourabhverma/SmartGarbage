@@ -1,9 +1,48 @@
-<?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MapsActivity" />
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#C8E4E8">
+
+    <Button
+        android:id="@+id/map_exit"
+        android:layout_width="107dp"
+        android:layout_height="wrap_content"
+        android:layout_x="239dp"
+        android:layout_y="68dp"
+        android:text="exit" />
+
+    <Button
+        android:id="@+id/home"
+        android:layout_width="107dp"
+        android:layout_height="wrap_content"
+        android:layout_x="56dp"
+        android:layout_y="62dp"
+        android:text="HOME" />
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="585dp"
+        android:layout_x="0dp"
+        android:layout_y="138dp"
+        tools:context=".MapsActivity" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="99dp"
+        android:layout_y="8dp"
+        android:backgroundTint="#EFE26F"
+        android:ems="10"
+        android:foreground="@drawable/ic_launcher_foreground"
+        android:foregroundTint="#EA7676"
+        android:inputType="textPersonName"
+        android:text="Dumpbin Locations Over Map"
+        android:textAlignment="center"
+        android:textColor="#8F2909" />
+
+</AbsoluteLayout>
