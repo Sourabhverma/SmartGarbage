@@ -3,6 +3,8 @@ import android.os.Bundle;
 import android.util.Log;
 import java.util.List;
 import java.util.ArrayList;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,25 +12,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.TableLayout.LayoutParams;
 
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonElement;
 
 
 import retrofit2.Call;
@@ -53,9 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private TableLayout tblrslt;
     private TableLayout tblrslt_header;
     private List<String> headerRow = List.of("bin_id","geolocation","region","status");
-
-
-
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
                 // calling a method to post the data and passing our name and job.
                 Log.i("Action_Done","Refresh Started");
                 String url = "http://"+baseUrl.getText()+"/";
-//                Log.i("Base Server URL",url);
 
                 getData(url,String.valueOf(city.getText()),String.valueOf(binStatus.getText()));
 
@@ -141,9 +133,10 @@ public class MainActivity extends AppCompatActivity {
 //                || super.onSupportNavigateUp();
 //    }
 
-    public void getData(String baseUrl,String city,String status){
+    public List<BinModal> getData(String baseUrl, String city, String status){
         Log.i("Base Server URL --",baseUrl);
-
+        List<BinModal> BinsFull = new ArrayList<BinModal>();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create()).build();
 
@@ -170,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
+
                 Type BinlistType = new TypeToken<List<BinModal>>() {}.getType();
                 List<BinModal> binList = new Gson().fromJson(jsonString.get("result"), BinlistType);
 
@@ -180,19 +174,23 @@ public class MainActivity extends AppCompatActivity {
                 tblrslt.setStretchAllColumns(true);
 //                tblrslt.bringToFront();
 
-//                tblrslt_header.removeAllViews();
+
                 tblrslt_header.setStretchAllColumns(true);
                 TableRow head_tr =  new TableRow(tblrslt_header.getContext());
                 for(int j = 0; j < headerRow.size(); j++){
                     TextView h1 = new TextView(tblrslt_header.getContext());
                     h1.setText(headerRow.get(j));
+                    h1.setTextColor(0xFFFF3300);
                     head_tr.addView(h1);
                 }
+                tblrslt_header.setBackgroundResource(R.color.white);
                 tblrslt_header.addView(head_tr);
 
-                tblrslt.removeAllViewsInLayout();
-                TableRow tr =  new TableRow(tblrslt.getContext());
+                tblrslt.removeViews(1, Math.max(0, tblrslt.getChildCount() - 1));
                 for(int i = 0; i < binList.size(); i++){
+                    TableRow tr =  new TableRow(tblrslt.getContext());
+//                    TextView c1 = new TextView(tblrslt.getContext());
+//                    c1.setText(binList.get(i).get_id());
                     TextView c2 = new TextView(tblrslt.getContext());
                     c2.setText(String.valueOf(binList.get(i).getBin_id()));
                     TextView c3 = new TextView(tblrslt.getContext());
@@ -206,8 +204,31 @@ public class MainActivity extends AppCompatActivity {
                     tr.addView(c3);
                     tr.addView(c4);
                     tr.addView(c5);
+                    if(binList.get(i).getStatus().equalsIgnoreCase("full")){
+                        BinsFull.add(binList.get(i));
+                    }
                     tblrslt.addView(tr);
                 }
+
+                if (BinsFull.size() >0){
+                    String msg1 = new String("Details \n");
+                    for(int i = 0; i < BinsFull.size(); i++){
+                        msg1 = msg1+" S.No :"+(i+1)+" Bin_id :"+BinsFull.get(i).getBin_id() +" Region :"+BinsFull.get(i).getRegion()+" Latitude/Longitude :"+BinsFull.get(i).getgelocation()+"\n";
+                    }
+                    builder.setMessage(msg1)
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    //Creating dialog box
+                    AlertDialog alert = builder.create();
+                    //Setting the title manually
+                    alert.setTitle("CRITICAL ALERT DUMPBINS FULL");
+                    alert.show();
+                }
+
             }
 
             @Override
@@ -216,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
+        return BinsFull;
     }
 
     public void postRestSteps(String baseUrl){

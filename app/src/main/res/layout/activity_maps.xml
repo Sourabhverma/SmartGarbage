@@ -41,7 +41,7 @@
         android:foreground="@drawable/ic_launcher_foreground"
         android:foregroundTint="#EA7676"
         android:inputType="textPersonName"
-        android:text="Dumpbin Locations Over Map"
+        android:text="DUMPBINS LOCATIONS"
         android:textAlignment="center"
         android:textColor="#8F2909" />
 
