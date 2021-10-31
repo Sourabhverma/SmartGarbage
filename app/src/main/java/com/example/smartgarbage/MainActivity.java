@@ -28,6 +28,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
 
 
 import retrofit2.Call;
@@ -169,8 +170,6 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-
-
                 Type BinlistType = new TypeToken<List<BinModal>>() {}.getType();
                 List<BinModal> binList = new Gson().fromJson(jsonString.get("result"), BinlistType);
 
@@ -181,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                 tblrslt.setStretchAllColumns(true);
 //                tblrslt.bringToFront();
 
-
+//                tblrslt_header.removeAllViews();
                 tblrslt_header.setStretchAllColumns(true);
                 TableRow head_tr =  new TableRow(tblrslt_header.getContext());
                 for(int j = 0; j < headerRow.size(); j++){
@@ -191,14 +190,13 @@ public class MainActivity extends AppCompatActivity {
                 }
                 tblrslt_header.addView(head_tr);
 
+                tblrslt.removeAllViewsInLayout();
+                TableRow tr =  new TableRow(tblrslt.getContext());
                 for(int i = 0; i < binList.size(); i++){
-                    TableRow tr =  new TableRow(tblrslt.getContext());
-//                    TextView c1 = new TextView(tblrslt.getContext());
-//                    c1.setText(binList.get(i).get_id());
                     TextView c2 = new TextView(tblrslt.getContext());
                     c2.setText(String.valueOf(binList.get(i).getBin_id()));
                     TextView c3 = new TextView(tblrslt.getContext());
-                    c3.setText(String.valueOf(binList.get(i).getGeolocation()));
+                    c3.setText(String.valueOf(binList.get(i).getgelocation()));
                     TextView c4 = new TextView(tblrslt.getContext());
                     c4.setText(String.valueOf(binList.get(i).getRegion()));
                     TextView c5 = new TextView(tblrslt.getContext());

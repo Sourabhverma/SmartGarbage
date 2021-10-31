@@ -50,7 +50,7 @@
         android:layout_x="109dp"
         android:layout_y="93dp"
         android:background="#EFC6C3"
-        android:text="23.20.144.58"
+        android:text="18.207.118.112"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="20sp"
         android:visibility="visible" />

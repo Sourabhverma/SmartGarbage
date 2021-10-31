@@ -7,7 +7,7 @@ public class BinModal {
     private String _id;
     private String bin_id;
     private String status;
-    private List geolocation;
+    private List gelocation;
     private String region;
     private Map result;
 
@@ -43,13 +43,14 @@ public class BinModal {
         this.status = status;
     }
 
-    public List getGeolocation() {
-        return geolocation;
+    public List getgelocation() {
+        return gelocation;
     }
 
-    public void setGeolocation(List geolocation) {
-        this.geolocation = geolocation;
+    public void setgelocation(List gelocation) {
+        this.gelocation = gelocation;
     }
+    
 
     public String getRegion() {
         return region;
@@ -63,7 +64,7 @@ public class BinModal {
         this._id = (String) result.get("_id");
         this.bin_id = String.valueOf(result.get("bin_id"));
         this.status = (String) result.get("status");
-        this.geolocation = (List) result.get("geolocation");
+        this.gelocation = (List) result.get("gelocation");
         this.region = (String) result.get("region");
         return result;
     }
@@ -73,6 +74,6 @@ public class BinModal {
         this._id = (String) result.get("_id");
         this.bin_id = String.valueOf(result.get("bin_id"));
         this.status = (String) result.get("status");
-        this.geolocation = (List) result.get("geolocation");
+        this.gelocation = (List) result.get("gelocation");
     }
 }
