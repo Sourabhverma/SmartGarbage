@@ -1,6 +1,9 @@
 package com.example.smartgarbage;
 import android.os.Bundle;
 import android.util.Log;
+
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import android.app.AlertDialog;
@@ -19,6 +22,7 @@ import android.content.Intent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import java.util.Map;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -49,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private TableLayout tblrslt_header;
     private List<String> headerRow = List.of("bin_id","geolocation","region","status");
     AlertDialog.Builder builder;
+    List<BinModal> BinsFull;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         tblrslt = (TableLayout) findViewById(R.id.tblrslt);
         tblrslt_header = (TableLayout) findViewById(R.id.tblrslt);
 
-
         // adding on click listener to our button.
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("Action_Done","Refresh Started");
                 String url = "http://"+baseUrl.getText()+"/";
 
-                getData(url,String.valueOf(city.getText()),String.valueOf(binStatus.getText()));
+                BinsFull = getData(url,String.valueOf(city.getText()),String.valueOf(binStatus.getText()));
 
             }
         });
@@ -88,6 +92,13 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this,MapsActivity.class);
 
                 // start the activity connect to the specified class
+                HashMap Bins = new HashMap();
+                if(BinsFull.size() > 0) {
+                    for (int i = 0; i < BinsFull.size(); i++) {
+                        Bins.put(BinsFull.get(i).getBin_id().toString(), BinsFull.get(i).getgelocation());
+                    }
+                    intent.putExtra("BinsFull", (Serializable) Bins);
+                }
                 startActivity(intent);
             }
         });

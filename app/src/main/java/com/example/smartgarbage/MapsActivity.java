@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat;
 //import android.support.v4.content.ContextCompat;
 import androidx.core.content.ContextCompat;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -46,6 +47,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -53,6 +60,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     GoogleApiClient mGoogleApiClient;
     private Button exit;
     private Button home;
+    HashMap BinsFull;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +122,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.getUiSettings().setCompassEnabled(true);
 
         //Initialize Google Play Services
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
@@ -126,12 +134,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setMyLocationEnabled(true);
         }
 
-
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            BinsFull = (HashMap) extras.get("BinsFull");
+        }
+        Log.i("BinsFull", String.valueOf(BinsFull.keySet()));
         mMap = googleMap;
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        if(BinsFull.size() > 0) {
+            for (Object key : BinsFull.keySet().toArray()) {
+                ArrayList<String> geolocation = (ArrayList) BinsFull.get(key);
+                LatLng Binkey = new LatLng(Double.parseDouble(geolocation.get(0)),Double.parseDouble(geolocation.get(1)));
+
+
+                // below line is use to add marker to each location of our array list.
+                mMap.addMarker(new MarkerOptions().position(Binkey).title("DumpBin :"+key));
+
+                // below lin is use to zoom our camera on map.
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(18.0f));
+
+                // below line is use to move our camera to the specific location.
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(Binkey));
+
+            }
+        }
     }
 
     protected synchronized void buildGoogleApiClient() {
