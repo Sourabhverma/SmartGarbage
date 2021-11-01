@@ -2,6 +2,8 @@ package com.example.smartgarbage;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -61,6 +63,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button exit;
     private Button home;
     HashMap BinsFull;
+    AlertDialog.Builder mapbuild;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,6 +147,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(BinsFull.size() > 0) {
             for (Object key : BinsFull.keySet().toArray()) {
                 ArrayList<String> geolocation = (ArrayList) BinsFull.get(key);
+                Log.i(geolocation.get(0),geolocation.get(1));
                 LatLng Binkey = new LatLng(Double.parseDouble(geolocation.get(0)),Double.parseDouble(geolocation.get(1)));
 
 
@@ -151,12 +155,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.addMarker(new MarkerOptions().position(Binkey).title("DumpBin :"+key));
 
                 // below lin is use to zoom our camera on map.
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(18.0f));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(75.0f));
 
                 // below line is use to move our camera to the specific location.
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(Binkey));
 
             }
+        }
+        else{
+            mapbuild = new AlertDialog.Builder(this);
+            String msg = new String("No Dumpbin is Full for given Region to show over map");
+            Log.e(BinsFull.toString(),msg);
+            mapbuild.setMessage(msg)
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            //Creating dialog box
+            AlertDialog alert = mapbuild.create();
+            //Setting the title manually
+            alert.setTitle("DUMPBINS ALERT");
+            alert.show();
+            mMap.clear();
         }
     }
 

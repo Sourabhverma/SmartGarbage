@@ -99,6 +99,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                     intent.putExtra("BinsFull", (Serializable) Bins);
                 }
+                else{
+                    intent.putExtra("BinsFull", (Serializable) new HashMap());
+                }
                 startActivity(intent);
             }
         });

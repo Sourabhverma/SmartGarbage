@@ -45,12 +45,12 @@
 
     <EditText
         android:id="@+id/serverUrl"
-        android:layout_width="wrap_content"
+        android:layout_width="149dp"
         android:layout_height="37dp"
         android:layout_x="109dp"
         android:layout_y="93dp"
         android:background="#EFC6C3"
-        android:text="10.104.48.187"
+        android:text="10.104.70.88"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="20sp"
         android:visibility="visible" />
@@ -62,7 +62,7 @@
         android:layout_x="187dp"
         android:layout_y="188dp"
         android:background="#DFCA0E"
-        android:text="bangalore-2"
+        android:text="bangalore"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="20sp"
