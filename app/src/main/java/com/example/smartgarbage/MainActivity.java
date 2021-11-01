@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     public  Button mapView_app;
     private TableLayout tblrslt;
     private TableLayout tblrslt_header;
-    private List<String> headerRow = List.of("bin_id","geolocation","region","status");
+    private List<String> headerRow = List.of("bin_id "," region "," status "," geolocation");
     AlertDialog.Builder builder;
     List<BinModal> BinsFull;
 
@@ -80,9 +80,12 @@ public class MainActivity extends AppCompatActivity {
                 // calling a method to post the data and passing our name and job.
                 Log.i("Action_Done","Refresh Started");
                 String url = "http://"+baseUrl.getText()+"/";
-
-                BinsFull = getData(url,String.valueOf(city.getText()),String.valueOf(binStatus.getText()));
-
+                try{
+                    BinsFull = getData(url,String.valueOf(city.getText()),String.valueOf(binStatus.getText()));
+                }catch (Exception e) {
+                    Log.i("Server Exception","Not Reachable : Please check Server IP or DNS Details"+e);
+                    Toast.makeText(MainActivity.this, "Not Reachable : Please check Server IP or DNS Details", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -206,13 +209,13 @@ public class MainActivity extends AppCompatActivity {
 //                    TextView c1 = new TextView(tblrslt.getContext());
 //                    c1.setText(binList.get(i).get_id());
                     TextView c2 = new TextView(tblrslt.getContext());
-                    c2.setText(String.valueOf(binList.get(i).getBin_id()));
+                    c2.setText(" "+String.valueOf(binList.get(i).getBin_id()));
                     TextView c3 = new TextView(tblrslt.getContext());
-                    c3.setText(String.valueOf(binList.get(i).getgelocation()));
+                    c3.setText(" "+String.valueOf(binList.get(i).getRegion()));
                     TextView c4 = new TextView(tblrslt.getContext());
-                    c4.setText(String.valueOf(binList.get(i).getRegion()));
+                    c4.setText(" "+String.valueOf(binList.get(i).getStatus()));
                     TextView c5 = new TextView(tblrslt.getContext());
-                    c5.setText(String.valueOf(binList.get(i).getStatus()));
+                    c5.setText(" "+String.valueOf(binList.get(i).getgelocation()));
 //                    tr.addView(c1);
                     tr.addView(c2);
                     tr.addView(c3);
